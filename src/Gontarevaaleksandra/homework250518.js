@@ -1,36 +1,42 @@
 "use strict";
-function isInArray(arr, ...args) {
-    let result = true;
-    args.forEach(element => {
-        if (arr.indexOf(element) === -1) {
-            result = false;
-        }
+function isInArray(arr) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    return args.every(function (element) {
+        return (arr.includes(element));
     });
+}
+function summator() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var result = args.reduce(function (sum, current) {
+        if (typeof current === 'string') {
+            var currentNumber = parseInt(current, 10);
+            return sum + ((!isNaN(currentNumber)) ? parseInt(current, 10) : 0);
+        }
+        return sum + current;
+    }, 0);
     return result;
 }
-function summator(...args) {
-    let count = 0;
-    args.forEach(element => {
-        if (typeof element === 'string') {
-            count += parseInt(element, 10);
-        }
-        else {
-            count += element;
-        }
-    });
-    return count;
-}
-function getUnique(...args) {
+function getUnique() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
     return Array.from(new Set(args));
 }
 function revertLetters(str) {
-    let words = str.split(' ');
-    let resultWords = [];
-    words.forEach(element => {
-        let letters = Array.from(element);
-        let charactersArray = new Array(letters.length);
-        let signsArray = new Array(letters.length);
-        letters.forEach((letter, i) => {
+    var words = str.split(' ');
+    var resultWords = [];
+    words.forEach(function (element) {
+        var letters = Array.from(element);
+        var charactersArray = new Array(letters.length);
+        var signsArray = new Array(letters.length);
+        letters.forEach(function (letter, i) {
             if (validate(letter)) {
                 charactersArray.push(letter);
             }
@@ -39,14 +45,13 @@ function revertLetters(str) {
             }
         });
         charactersArray.reverse();
-        let j = 0;
-        for (let i = 0; i < letters.length; i++) {
+        var j = 0;
+        for (var i = 0; i < letters.length; i++) {
             if (!signsArray[i]) {
                 signsArray[i] = charactersArray[j];
                 j++;
             }
         }
-        ;
         resultWords.push(signsArray.join(''));
     });
     return resultWords.join(' ');

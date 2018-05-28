@@ -1,66 +1,59 @@
+type snb = Array<string | number | boolean>;
 
-function isInArray(arr: (string | number | boolean)[],
-	...args: (string | number | boolean)[]): boolean {
-	let result: boolean = true;
-	args.forEach(element => {
-		if (arr.indexOf(element) === -1) {
-			result = false;
-		}
-	});
-	return result;
+function isInArray(arr: snb, ...args: snb): boolean {
+  return args.every((element) => {
+    return (arr.includes(element));
+  });
 }
 
-function summator(...args: (string | number)[]): number {
-	let count: number = 0;
-	args.forEach(element => {
-		if (typeof element === 'string') {
-			count += parseInt(element, 10);
-		} else {
-			count += element;
-		}
-	})
-	return count;
+function summator(...args: Array<string | number>): number {
+  const result = args.reduce( (sum: number, current: string | number) => {
+    if (typeof current === 'string') {
+      const currentNumber: number = parseInt(current, 10);
+      return sum + ((!isNaN(currentNumber)) ? parseInt(current, 10) : 0);
+    }
+    return sum + current;
+  }, 0);
+  return result;
 }
 
-function getUnique(...args: (string | number | boolean)[]): (string | number | boolean)[] {
-	return Array.from(new Set(args));
+function getUnique(...args: snb): snb {
+  return Array.from(new Set(args));
 }
 
 function revertLetters(str: string) {
-	let words: string[] = str.split(' ');
-	let resultWords: string[] = [];
-	words.forEach(element => {
-		let letters = Array.from(element);
-		let charactersArray = new Array(letters.length);
-		let signsArray = new Array(letters.length);
+  const words: string[] = str.split(' ');
+  const resultWords: string[] = [];
+  words.forEach((element) => {
+    const letters = Array.from(element);
+    const charactersArray = new Array(letters.length);
+    const signsArray = new Array(letters.length);
 
-		letters.forEach((letter, i) => {
-			if (validate(letter)) {
-				charactersArray.push(letter);
-			} else {
-				signsArray[i] = letter;
-			}
-		});
-		charactersArray.reverse();
+    letters.forEach((letter, i) => {
+      if (validate(letter)) {
+        charactersArray.push(letter);
+      } else {
+        signsArray[i] = letter;
+      }
+    });
+    charactersArray.reverse();
 
-		let j = 0;
-		for (let i = 0; i < letters.length; i++) {
-			if (!signsArray[i]) {
-				signsArray[i] = charactersArray[j];
-				j++;
-			}
-		};
+    let j = 0;
+    for (let i = 0; i < letters.length; i++) {
+    if (!signsArray[i]) {
+      signsArray[i] = charactersArray[j];
+      j++;
+    }
+  }
 
-		resultWords.push(signsArray.join(''));
+    resultWords.push(signsArray.join(''));
 
-	});
+  });
 
-
-	return resultWords.join(' ');
-
+  return resultWords.join(' ');
 }
 
 function validate(strValue: string) {
-	var objRegExp = /^[a-z\u00C0-\u00ff]+$/;
-	return objRegExp.test(strValue);
+  const objRegExp = /^[a-z\u00C0-\u00ff]+$/;
+  return objRegExp.test(strValue);
 }
